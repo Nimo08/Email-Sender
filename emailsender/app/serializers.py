@@ -6,7 +6,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
         model = Subscriber
         fields = ['email', 'subscribed']
 
-class EmailContent(serializers.ModelSerializer):
+class EmailContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailContent
         fields = ['title', 'body', 'created_at']
