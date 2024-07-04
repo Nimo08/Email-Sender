@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import HttpResponse
+from .tasks import send_bulk_emails_task
 
-# Create your views here.
+
+def send_bulk_emails_view(request):
+    send_bulk_emails_task.delay()
+    return HttpResponse("Sent email successfully, check your mail please")
+    
