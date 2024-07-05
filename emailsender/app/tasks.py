@@ -1,20 +1,25 @@
 from celery import shared_task
 from django.core.mail import send_mail
 from .models import Subscriber, EmailContent
+from django.conf import settings
 
 @shared_task
 def send_email_task(email, subject, message):
     """
     Task to send an email using Django's send_mail function.
     """
-    send_mail(
-        subject,
-        message,
-        'host.user.api@gmail.com',
-        [email],
-        fail_silently=False,
-    )
-
+    try:
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
+    except Exception as e:
+        # Log the error
+        print(f"Failed to send email to {email}: {str(e)}")
+    
 @shared_task
 def send_bulk_emails_task():
     """
